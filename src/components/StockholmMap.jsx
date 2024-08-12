@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
+import { MapContainer, TileLayer, Polygon } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
 const StockholmMap = ({ isochrone }) => {
@@ -13,7 +13,12 @@ const StockholmMap = ({ isochrone }) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
-      {isochrone && <GeoJSON data={isochrone} style={() => ({ fillColor: 'blue', weight: 2, opacity: 1, color: 'white', fillOpacity: 0.7 })} />}
+      {isochrone && (
+        <Polygon
+          positions={isochrone.map(point => [point.lat, point.lng])}
+          pathOptions={{ fillColor: 'blue', weight: 2, opacity: 1, color: 'white', fillOpacity: 0.7 }}
+        />
+      )}
     </MapContainer>
   );
 };
